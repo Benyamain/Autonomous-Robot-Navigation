@@ -19,20 +19,14 @@ The data used in this application includes labeled images for training the CNN, 
 
 *Rough Sketch of Implementation*
 a. Define the simulation environment in Gazebo.
-b. Set up the robot with necessary sensors (e.g., cameras, LIDAR).
+b. Set up the robot with necessary sensors.
 c. Collect and label a dataset of images with boundaries and objects.
 d. Train the CNN to classify these images accurately.
 e. Develop a PINN to model the robot’s dynamics.
 f. Train the PINN using simulation data to predict the robot’s movements accurately.
-g. Define the RL framework (e.g., PPO, DDPG).
-h. Integrate the state space (including CNN outputs and PINN predictions) and action space.
-i. Define the reward structure, which includes:
-    ia. Positive rewards for staying within boundaries.
-    ib. Positive rewards for moving towards and detecting the target object.
-    ic. Negative rewards for collisions or going out of bounds.
-j. The CNN processes real-time images to detect boundaries and objects, providing input to the RL agent.
-k. The RL agent uses this information, along with PINN predictions, to decide on actions.
-l. The robot performs the actions, and the results (new states) are fed back into the system, updating the CNN and PINN as needed.
+g. Define the RL framework.
+h. Integrate the state space and action space.
+i. Define the reward structure.
 
 *Big Idea?*
 By integrating CNNs for visual recognition and RL for decision-making, this approach not only enhances the robot's ability to navigate within defined boundaries but also improves its capability to detect and interact with target objects in dynamic environments.
