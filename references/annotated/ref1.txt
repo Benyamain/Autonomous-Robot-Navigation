@@ -1,0 +1,196 @@
+Paper Information
+
+Authors: Hamid Taheri, Seyed Rasoul Hosseini, Mohammad Ali Nekoui [1].
+Title: Deep Reinforcement Learning with Enhanced PPO for Safe Mobile Robot Navigation [1].
+Type: This appears to be a conference paper [2].
+Publication Date: The arXiv version is dated May 2024 (v2 version submitted on May 28, 2024) [1].
+Number of Citations: This information is not available in the provided source.
+Research Focus
+
+Main Purpose: The primary goal of this paper is to explore the use of deep reinforcement learning (DRL) for training a mobile robot to navigate autonomously in complex environments [1]. The research focuses on enabling robots to navigate without relying on pre-existing maps, which is referred to as mapless navigation [3, 4].
+Key Questions Addressed:
+How can DRL be effectively applied to achieve mapless navigation for mobile robots [4]?
+What enhancements to the Proximal Policy Optimization (PPO) algorithm can improve its performance in robot navigation tasks [1, 5]?
+How do different reward function designs influence the learning and navigation capabilities of a DRL-based mobile robot, especially in environments with varying levels of complexity [1, 6]?
+Key Contributions:
+Enhanced PPO Algorithm: The paper introduces an enhanced neural network structure within the PPO algorithm, specifically designed to boost navigation performance [1, 5]. This enhancement includes the integration of Residual Blocks (ResBlocks) into both the actor and critic networks [7].
+Comprehensive Observation Setup: A detailed observation setup is presented, which captures a wide array of inputs to provide a thorough understanding of the robot’s environment [4]. This setup includes:
+Laser readings across 30 dimensions [4].
+The robot’s past linear and angular velocities [4].
+The target position relative to the robot, expressed in polar coordinates [4].
+The robot’s yaw angle and the orientation required to face the target [4].
+Innovative Reward Function Design: The paper explores different reward function designs to enhance algorithm efficacy [1]. This includes the consideration of alternative reward structures tailored for obstacle-rich environments [8]. The reward functions are designed to promote goal-oriented movement, penalize collisions, and incentivize consistent progress toward the target [9].
+Technical Details
+
+Machine Learning Method(s) Used:
+Deep Reinforcement Learning (DRL): A subset of machine learning used to enhance the robot's navigation skills through experiential learning [10].
+Proximal Policy Optimization (PPO): A reinforcement learning algorithm known for its stability and efficacy in continuous control tasks [11]. The algorithm iteratively updates the policy to maximize the expected cumulative reward, while limiting policy changes to ensure stable training progress [11, 12].
+Deep Deterministic Policy Gradient (DDPG): Used as a benchmark for performance comparison [13-15].
+Dataset(s) Used: The study utilizes a simulated environment created with the Robot Operating System (ROS) and the Gazebo simulator [16, 17]. The simulated environments include:
+Laser Range Data: Sampled uniformly from -90 to 90 degrees and normalized to a (0, 1) scale [18]. The LiDAR sensor captures 30 distance measurements of the robot’s surroundings [19].
+Simulated Indoor Environments: Two distinct environments were used:
+An obstacle-free environment [20].
+A complex environment populated with strategically placed obstacles [20].
+Implemented Algorithms, Tools, and Evaluation Metrics:
+Algorithms: Enhanced PPO with ResBlocks, PPO, and DDPG [14, 15, 21].
+Tools:
+Robot Operating System (ROS): A versatile framework for integrating diverse sensors, actuators, and control algorithms [16].
+Gazebo Simulator: A high-fidelity robot simulation environment for testing and validating navigation algorithms [16].
+Evaluation Metrics:
+Average Reward: Measures the cumulative reward obtained by the agent during training [22, 23].
+Success Rate: Indicates the percentage of successful navigation episodes [22, 23].
+Average Steps per Episode: Represents the average number of steps taken by the robot to reach the target [22, 23].
+Cumulative Reward: Provides a visual representation of the performance disparity between different algorithms [23, 24].
+Model Architecture:
+Actor and Critic Networks: The PPO model incorporates actor and critic networks, both enhanced with Residual Blocks (ResBlocks) [7, 25].
+Observation Space: A 16-dimensional observation space captures environmental nuances [7].
+Action Space: Consists of linear and angular velocities, constrained to realistic robotic maneuvers [7]. Angular velocity is confined to a range of (-1, 1) using the hyperbolic tangent function (tanh), while linear velocity is restricted to (0, 1) via a sigmoid function [7].
+Laser Range Data Processing: Laser range data is processed by sampling it uniformly from -90 to 90 degrees and normalizing these readings to a (0, 1) scale [18].
+Maximum Speeds: The maximum speeds are set at 0.25 m/s (linear) and 1 rad/s (angular), aligned with the dynamics of the Turtlebot robot [18].
+Residual Blocks (ResBlocks): The integration of two ResBlocks in each of the actor and critic networks enhances information flow and control policy efficiency [18].
+Network Structure Details:
+The critic network structure is detailed in Table I [26].
+The actor network structure is detailed in Table II [27].
+Reward Function:
+Basic Reward Function: Rewards the agent for approaching the target, penalizes collisions, and incentivizes progress [9]. The reward function is expressed mathematically in equation 5 [9].
+Advanced Reward Function: Penalizes the robot for moving toward walls and rewards it exponentially as it approaches the target [8]. This reward function is designed to address challenges posed by obstacle-filled environments and is expressed mathematically in equation 6 [17].
+Outcomes
+
+Main Findings:
+Simple Environment: In a simple environment, the ResBlock PPO algorithm outperforms DDPG, achieving faster navigation and quicker adaptation [15]. ResBlock PPO converges more rapidly and adapts swiftly to environmental changes, leading to quicker and more accurate pathfinding [28].
+Complex Environment with Basic Reward: In a complex environment with a basic reward function, DDPG demonstrates superior navigation accuracy compared to ResBlock PPO [29]. DDPG excels in environments requiring careful management of detailed spatial information and strategic maneuvering [29].
+Complex Environment with Advanced Reward: The application of an advanced reward function in a complex environment enhances the performance of ResBlock PPO [21]. However, DDPG still achieves a better success rate, although it operates slower compared to PPO [21].
+Conclusion: The study demonstrates the successful application of DRL for autonomous navigation in mobile robots [2]. The enhancements to the PPO algorithm, through the integration of ResBlocks, and the use of refined reward functions lead to significant gains in robotic navigation [30]. The choice of algorithm and reward function should be tailored to the specific environment and task requirements [30]. The research contributes to the field by showing how improvements in algorithms and training can lead to substantial gains in robotic navigation, with promising applications in industrial, commercial, and rescue operations [30].
+
+1. Abstract—Collision-free motion is essential for mobile robots. Most approaches to collision-free and efficient navigation with wheeled robots require parameter tuning by experts to obtain good navigation behavior. This study investigates the application of deep reinforcement learning to train a mobile robot for autonomous navigation in a complex environment. The robot utilizes LiDAR sensor data and a deep neural network to generate control signals guiding it toward a specified target while avoiding obstacles. We employ two reinforcement learning algorithms in the Gazebo simulation environment: Deep Deterministic Policy Gradient and proximal policy optimization. The study introduces an enhanced neural network structure in the Proximal Policy Optimization algorithm to boost performance, accompanied by a well-designed reward function to improve algorithm efficacy. Experimental results conducted in both obstacle and obstacle-free environments underscore the effectiveness of the proposed approach. This research significantly contributes to the advance-ment of autonomous robotics in complex environments through the application of deep reinforcement learning.
+
+3. Mapless navigation represents a significant departure from conventional navigation strategies that heavily depend on static, pre-built maps. Instead, it empowers robots with the capability to explore and maneuver through uncharted terri-
+Fig. 1: A mapless motion planner was trained using the Proximal Policy Optimization (PPO) algorithm to guide a non-holonomic mobile robot to its target position while avoiding collisions.
+tories, responding dynamically to unforeseen obstacles, and adapting to evolving circumstances [1]. This paradigm shift holds immense promise in a wide range of applications, from search and rescue missions in disaster-stricken areas to autonomous exploration of remote and hazardous locations [3].
+
+4. This paper delves into the intriguing realm of mapless robot navigation using Deep Reinforcement Learning (DRL). We explore the theoretical foundations of DRL and its practical applications, demonstrating how robots can navigate without relying on pre-existing maps. Building on this foundation, we present an innovative approach to mapless navigation, marked
+by three key contributions. Firstly, we introduce a Comprehensive Observation Setup
+that encompasses a wide array of inputs to fully capture the robot’s environment. These inputs include laser readings across 30 dimensions, the robot’s past linear and angular velocities, and the target position relative to the robot, ex-pressed in polar coordinates. Additionally, we consider the robot’s yaw angle and the orientation required to face the tar-get. This multidimensional observation framework facilitates a comprehensive understanding of the robot’s surroundings, empowering the navigation system with enhanced decision-making capabilities.
+
+5. PPO-Based Learning for Navigation: In our strategy for training the motion planner, we introduce a customized neural network architecture designed specifically for the Proximal Policy Optimization (PPO) algorithm. This modification re-sults in a significant improvement in the overall performance of the planner. Leveraging this reinforcement learning tech-nique, the planner becomes proficient in acquiring effective navigation strategies by optimizing its decision-making pro-cess based on available sensory information. Notably, the planner’s capability to directly output continuous linear and angular velocities contributes to a streamlined and efficient navigation process.
+
+8. and steady advancement may need adjustment or augmentation to better suit scenarios where obstacles densely populate
+the environment (see Equation 6). Consideration of alterna-tive reward structures may be necessary to ensure effective learning and decision-making in such challenging settings. Consequently, we have designed a new reward function that penalizes the robot as it moves toward the walls and rewards the agent exponentially as it approaches the target, aiming to address the challenges posed by obstacle-filled environments.
+
+6. E. Reward Function
+The reward function is crucial in the reinforcement learning process, acting as a guide by rewarding desirable actions and penalizing unfavorable ones. The agent aims to develop a policy that maximizes these rewards, optimizing decision-making to fulfill its objectives in the given environment. The construction of the reward function significantly dictates the agent’s behavior and learning effectiveness.
+Our reward function, expressed mathematically, rewards the agent for approaching the target, penalizes potential collisions, and incentivizes progress towards the target:
+
+7. D. Model Architecture
+In the study, we leverage the Proximal Policy Optimization (PPO) algorithm to cultivate our tailored model for efficient navigation.
+A shown in figure 3, In our innovative approach, we introduced an advanced architecture within the actor and critic networks of our Proximal Policy Optimization (PPO) model, significantly enhancing its performance. Central to this enhancement are the Residual Blocks (ResBlocks) integrated into both networks.
+Our system operates with a 16-dimensional observation space designed to meticulously capture environmental nu-ances. The action space, comprising linear and angular ve-locities, is adeptly constrained to mirror realistic robotic ma-neuvers; angular velocity is confined to a range of (-1, 1) using the hyperbolic tangent function (tanh), while linear velocity is restricted to (0, 1) via a sigmoid function, accommodating the robot’s limited reverse capability due to sparse rear sensor coverage.
+
+8. and steady advancement may need adjustment or augmentation to better suit scenarios where obstacles densely populate
+the environment (see Equation 6). Consideration of alterna-tive reward structures may be necessary to ensure effective learning and decision-making in such challenging settings. Consequently, we have designed a new reward function that penalizes the robot as it moves toward the walls and rewards the agent exponentially as it approaches the target, aiming to address the challenges posed by obstacle-filled environments.
+
+9. r1(st, at) =
+rarrive if dt < cd rcollision if maxxt < co cr(dt−1 − dt) otherwise.
+(5)
+In equation 5, rarrive is granted when the agent is within a critical distance cd to the target, promoting goal-oriented movement and rcollision is imposed if any sensor reading xt sig-nals a near-collision distance co, promoting safety. Otherwise, the reward is proportional to the reduction in distance to the target compared to the last timestep, encouraging consistent progress. This structure drives the agent towards the target while avoiding hazards, balancing goal achievement, safety, and efficient navigation. While this reward function is a cornerstone of our reinforcement learning agent’s behavior, its applicability might be limited in obstacle-rich environments. The balance it strikes between target-seeking behavior, safety,
+
+10. Deep Reinforcement Learning (DRL), a subset of ma-chine learning, has become a powerful tool for enhancing robots’ navigation skills through experiential learning [5]. By employing DRL algorithms, robots can make informed decisions in real-time, learning from their actions and refining their path-planning strategies to meet specific objectives. This adaptive learning process mirrors human-like decision-making, enabling robots to navigate smoothly and effectively even in the absence of conventional maps.
+
+11. These studies collectively underscore the versatility and expansive potential of DRL in advancing the field of robotic navigation, paving the way for more sophisticated and au-tonomous robotic systems.
+III. METHODOLOGY
+A. Proximal Policy Optimization (PPO)
+In our research, we employed the Proximal Policy Optimiza-tion (PPO) algorithm, a well-regarded reinforcement learning technique known for its stability and efficacy in continuous control tasks. Unlike the Deep Deterministic Policy Gradient (DDPG) algorithm, PPO iteratively updates the policy to maximize the expected cumulative reward, implementing a constraint to limit policy changes and prevent large, abrupt deviations. This controlled approach to policy updates ensures
+
+12. more stable training progress, making PPO particularly suit-able for our mapless motion planning problem.
+In the Proximal Policy Optimization (PPO) algorithm, the loss function is composed of two integral components: the policy loss and the value loss.
+The policy loss is crafted to modulate the updates made to the policy, ensuring they remain modest and do not signifi-cantly diverge from the current policy. This controlled adjust-ment is vital for the stability of the training process, enabling a gradual and steady improvement in policy performance. Mathematically, the policy loss can be described as follows:
+
+13. (TRPO) [9] showed promising results in challenging envi-ronments, but their application to mobile robot navigation remained limited due to the need for discrete action spaces. The breakthrough in continuous control came with algorithms like the Deep Deterministic Policy Gradient (DDPG) [10] and Proximal Policy Optimization (PPO) [15]. These methods facilitated mobile robot navigation in real-world scenarios, enabling smooth and precise control. PPO and DDPG, in particular, allowed robots to learn continuous actions, making it a significant milestone in this field.
+
+14. For each training episode, the target’s starting position was randomized within the environment, ensuring it was placed away from obstacles to prevent immediate collisions. This ap-proach of random initialization was vital for training the model to adapt to a wide range of navigation scenarios, enhancing its ability to operate effectively in varied environments.
+B. Performance Comparison
+In our study, we explore the efficacy of Proximal Policy Optimization (PPO) enhanced with Residual Blocks across different environmental complexities and reward function de-signs. We benchmark these against the Deep Deterministic Policy Gradient (DDPG) algorithm to evaluate performance variations. The investigation unfolds through three distinct scenarios:
+
+15. (a) The simple environment (b) The complex environment
+Fig. 6: Comparative view of two different robotic environments
+Complex environment and advanced reward function out-lined in equation 6: in the final configuration, we introduce an advanced reward function to our complex environment scenario, aiming to discern the impact of intricate reward structuring on the ResBlock PPO’s navigational efficacy.
+V. EXPERIMENTAL RESULTS
+A. Simple Environment with Basic Reward
+In the first scenario, the ResBlock PPO algorithm demon-strated significant advantages over the DDPG method within the simple environment. Particularly, ResBlock PPO achieved faster navigation, indicating a more efficient and responsive decision-making process. This effectiveness is partly due to the ResBlock architecture, which helps maintain a strong gradient flow during training, essential for quick learning and adaptation.
+
+16. The Robot Operating System (ROS) has established itself as the predominant standard for developing and controlling robotic systems. Offering a versatile framework, ROS facili-tates the seamless integration of diverse sensors, actuaries, and control algorithms [6]. When coupled with Gazebo, a high-fidelity robot simulation environment, ROS allows for rigorous testing and validation of mapless navigation algorithms in a secure and controlled virtual setting before their deployment in real-world scenarios [7].
+
+17. r2(st, at) =
+ rarrive if dt < cd rcollision if xt < co
+cr(dt−1 − dt)× 2
+( dt−1 dt
+) − cp (1− hd) otherwise.
+(6) Where hd represents the heading deviation of the sensor,
+co represents the collision threshold, cd represents the target proximity threshold, cr represents the reward coefficient, and cp represents the penalty coefficient.
+IV. SIMULATION
+A. Environmental Setup
+The training of our model was conducted in virtual envi-ronments, using the Robot Operating System (ROS) combined with the Gazebo simulator. These platforms provided a real-istic and customizable setting for the experiments.
+
+18. For environmental perception, we process laser range data, sampling it uniformly from -90 to 90 degrees and normalizing these readings to a (0, 1) scale. This data handling facilitates a more structured and effective decision-making process.
+Fig. 3: Neural Network Architecture of the PPO Algorithm illustrating layer types, dimensions, and activations, with a merged output in the Merge layer.
+To align with the dynamics of the Turtlebot, we set the maximum speeds at 0.25 m/s (linear) and 1 rad/s (angular). The integration of two ResBlocks in each of the actor and critic networks is a pivotal enhancement. These blocks significantly improve the flow of information and the efficiency of the control policy, proving indispensable for the robot’s adept navigation in environments without predefined maps.
+
+19. Our goal is to model these states into actionable insights, specifically to compute the next velocity vt, facilitating agile and accurate navigation in dynamic settings.
+C. Data Processing
+This section details our LiDAR data processing approach to enhance robot navigation in a complex environment. We aim to condense raw sensor data for optimal decision-making by Actor-Critic models while minimizing computational load.
+The LiDAR sensor captures 30 distance measurements of the robot’s surroundings. To align with Actor-Critic ar-chitecture and ensure efficiency, we propose dividing these measurements into 10 batches of three data points each. Within each batch, we select the minimum distance, identifying the closest obstacle in the robot’s field of view. This process yields 10 streamlined observations.
+
+20. Fig. 4: The structure of Turtlebot3 robot.
+A shown in figure 6, We conducted our experiments in two distinct environments: an obstacle-free environment and a complex environment. Both environments were simulated indoors within a 10 x 10 square meter area, enclosed by walls. The complex environment was additionally populated with obstacles strategically placed to challenge the navigation capabilities of our robot. Throughout the experiments, we utilized the Turtlebot as the robotic platform for these trials (Figure 4).
+
+21. C. Complex Environment with Advanced Reward
+In a more challenging environment, the application of an advanced reward function significantly enhanced the perfor-mance of ResBlock PPO. However, despite the improvement seen in PPO results due to the advanced reward function, DDPG still outperformed it in terms of success rate. No-tably, while DDPG achieved a better success rate, it operated slower compared to PPO. This advanced reward function, tailored to assess finer details of the navigation strategy, better complemented ResBlock PPO’s adaptive learning ca-pabilities. It effectively encouraged more strategic decision-making, allowing ResBlock PPO to navigate complex settings more proficiently than the previous version with a simple reward function. This performance improvement highlights the importance of aligning reward mechanisms with specific algorithm strengths, particularly in challenging environments where nuanced decision-making is crucial.
+
+22. he potential of integrating advanced neural network architec-tures like ResBlock into reinforcement learning frameworks to boost efficiency and adaptability in robotic navigation.
+TABLE III: Comparison of Proposed PPO vs DDPG
+Algorithm Avg. Reward
+Episodes Success %
+Avg. Steps/Ep
+Prop. PPO 17.49 90 100 111.11 Vanilla PPO 3.34 23 30.43 419.69 DDPG 12.65 65 98.46 144.92
+B. Complex Environment with Basic Reward
+In a more challenging environment characterized by in-tricate obstacles, the DDPG algorithm showcased superior navigation accuracy over the ResBlock PPO.
+
+23. Fig. 9: Comparative analysis of cumulative rewards using DDPG and PPO algorithms
+disparity between the proposed PPO and DDPG algorithms in a complex environment with a basic reward function.
+This visualization corroborates our findings, further substan-tiating the efficacy of DDPG in environments necessitating precise navigation amidst intricate obstacles.
+TABLE IV: Proposed PPO vs DDPG - Complex Env
+Algorithm Avg. Reward
+Episodes Success %
+Avg. Steps/Ep
+DDPG 11.23 63 93.65 158.73 Prop. PPO 9.07 87 67.81 114.94
+
+24. The results underscore a significant interplay between envi-ronmental complexity and algorithmic strengths, with DDPG particularly excelling in settings demanding high accuracy and strategic navigation maneuvers.
+As depicted in Figure 8, the cumulative reward comparison graph provides a visual representation of the performance
+(a) Cumulative Reward for Proposed DDPG Algorithm in a Complex Environment with Basic Reward Function
+(b) Cumulative Reward for Proposed PPO Algorithm in a Complex Environment with Advanced Reward Function
+
+25. LV F (θ) = E [ (V (st)−Rt)
+2 ]
+(3)
+In our implementation of the Proximal Policy Optimization (PPO) algorithm, the actor and critic networks are fundamental components that facilitate the learning process. The actor network is responsible for defining the policy, which specifies the probability distribution of possible actions in a given state. Conversely, the critic network provides an estimate of the value of each state, essentially predicting the expected return from that state.
+The training of the actor network is guided by the policy loss, which helps in refining the policy to ensure better decision-making in navigating the environment. On the other hand, the critic network is trained to minimize the value loss, aiming to enhance the accuracy of state value predictions.
+
+26. The ResBlocks, by enabling shortcut connections within the networks, facilitate the gradient flow during training, thus mitigating the vanishing gradient problem and leading to more stable and faster learning. This architecture allows the critic network to more accurately estimate the state’s value (V-value), with a linear activation function employed in the output layer for a clear, interpretable signal.
+TABLE I: PPO Critic network structure details
+Weight Size Activation 1st layer 512 LeakyRelu 2nd layer 16 Linear res input -Concatenate 1 input LeakyRelu 3rd layer 512 LeakyRelu 4th layer 32 LeakyRelu res Concatenate 1 -Concatenate 2 Concatenate 1 LeakyRelu 5th layer 1 Linear lr 3e-4
+
+27. TABLE II: PPO Critic network structure details
+Weight Size Activation 1st layer 512 LeakyRelu 2nd layer 16 Linear res input -Concatenate 1 input LeakyRelu 3rd layer 512 LeakyRelu 4th layer 32 LeakyRelu res Concatenate 1 -Concatenate 2 Concatenate 1 LeakyRelu
+5th layer 2 Sigmoid Tanh
+lr 3e-4
+This architectural innovation underpins our model’s ability to learn and execute mapless navigation tasks with increased efficiency and effectiveness, demonstrating a significant ad-vancement in autonomous robotic navigation technology.
+
+28. The improved performance depicted in Figure 7 shows that ResBlock PPO not only converges more rapidly but also adapts swiftly to environmental changes. This leads to quicker and more accurate pathfinding compared to both DDPG and vanilla PPO.
+Fig. 7: Cumulative Reward of Proposed PPO and DDPG in a Simple Environment with Basic Reward Function.
+The architecture’s ability to process environmental cues effectively allows for faster adjustments to changes, enhancing the robot’s navigation capabilities. This trial establishes a clear performance ranking with ResBlock PPO at the forefront, fol-lowed by DDPG, and then vanilla PPO. The results underscore
+
+29. Fig. 8: Cumulative Reward of Proposed PPO and DDPG in a Complex Environment with Basic Reward Function.
+Despite encountering more complex spatial dynamics, DDPG demonstrated enhanced precision in navigation, un-derscoring its robustness in handling intricate obstacles as shown in IV. This performance discrepancy suggests that while ResBlock PPO excels in simpler scenarios, DDPG is better suited to environments requiring careful management of detailed spatial information and strategic maneuvering.
+
+30. By integrating LiDAR sensor data with DRL algorithms, robots were able to navigate towards targets while avoiding ob-
+stacles. Enhancements in the PPO neural network architecture and refined reward functions significantly boosted performance and training efficacy. Experimental results in various environ-ments confirmed the effectiveness of our approach, highlight-ing the potential of DRL to advance autonomous robotics. This research contributes to the field by showing how improvements in algorithms and training can lead to substantial gains in robotic navigation, with promising applications in industrial, commercial, and rescue operations.

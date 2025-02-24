@@ -1,0 +1,92 @@
+Paper Information
+Authors: Yi Zhang, Zhile Yang, Zihan Zhu, Wei Feng, Zhaokun Zhou, and Weijun Wang
+Title: Visual Navigation of Mobile Robots in Complex Environments Based on Distributed Deep Reinforcement Learning
+Type: Conference
+Publication Date: 2022 [1, 2]
+Number of Citations: The provided source does not contain the number of citations.
+Research Focus
+Main Purpose: The main objective of the paper is to propose and verify a robot visual navigation model in complex environments based on distributed deep reinforcement learning [3]. The model aims to enable mobile robots to output accurate actions in complex environments and search for collision-free paths in large scene complex environments without maps and human intervention [3].
+Key Questions Addressed:How can deep reinforcement learning help mobile robots navigate autonomously in complex, unknown environments using visual sensors [3, 4]?
+How can a complex navigation task be divided into simpler tasks to reduce training time in a large-scale complex environment [2, 5]?
+How can a distributed deep reinforcement learning approach, combining LSTM and PPO algorithms, be used to achieve accurate visual navigation in large complex scenes [3, 5]?
+Key Contributions:A visual navigation model based on distributed deep reinforcement learning that divides a complex environment into several regions and uses local visual navigation models [3, 5].
+The combination of long short-term memory (LSTM) and proximal policy optimization (PPO) algorithms as a local visual navigation model within each region [3, 5].
+A new reward function that trains the target through factors such as the action of mobile robots, the distance between robots and the target, and the running time of robots [3, 5].
+Technical Details
+Machine Learning Methods Used:Deep Reinforcement Learning (DRL): Used for autonomous navigation of mobile robots in unknown, unstructured, and dynamic environments [3, 4].
+Proximal Policy Optimization (PPO): Combined with LSTM for local visual navigation models in each region [3, 5]. PPO is noted as having more applications in recent research [6].
+Long Short-Term Memory (LSTM): Integrated with PPO to form the local visual navigation model [3, 5].
+Convolutional Neural Network (CNN): Used to obtain the current state RGB-D image as the input and generate an embedded vector [7].
+Datasets Used:The paper uses a simulation environment created in Gazebo on Ubuntu 16.04 [8]. The environment consists of four regions: production line, office, outdoor area, and restaurant [9].
+The robot uses a visual sensor to receive real-time RGB-D images from its first-person perspective [3, 9].
+Implemented Algorithms and Tools:Gazebo: A simulator used to establish the simulation environment [8].
+Ubuntu 16.04: The operating system used for the simulation [8].
+The visual navigation model takes RGB-D information and the target point as input and the continuous action of the mobile robot as the output [10]. The model uses the RGB-D image obtained from the first perspective of mobile robots and the polar coordinates of the target in mobile robots coordinate system as input [3].
+Evaluation Metrics:Success rate of navigation tasks in the local region model, comparing old and new targets [11]. A success rate of 60% for new goals and over 75% for old targets was observed [11].
+Rewards obtained by mobile robots during the training process [11]. Rewards increased continuously during training [11].
+Navigation success rate in local regions and the entire large-scale complex environment [11]. The success rate in the entire complex scene was 84% [11].
+Outcomes
+Main Findings and Conclusions:The proposed visual navigation model based on distributed DRL improves the existing DRL visual navigation framework for large-scale complex environments [12].
+Dividing the complex scene into several regions and training local region models helps achieve good navigation performance [12].
+The success rate of the mobile robot reaching the target in the large-scale complex environment of GAZEBO is 84%, indicating good navigation performance [12].
+The model can effectively select the appropriate local region model to reach the target [12].
+
+3. Chinese Academy of Sciences Shenzhen, China
+wei.feng@siat.ac.cn
+Zhaokun Zhou Shenzhen Institute of Advanced Technology
+Chinese Academy of Sciences Shenzhen, China
+zk.zhou@siat.ac.cn
+Weijun Wang* Shenzhen Institute of Advanced Technology
+Chinese Academy of Sciences Shenzhen, China
+wj.wang@giat.ac.cn
+Abstract—The increasingly popular method of deep reinforce-ment learning can not only help mobile robots output accurate actions in complex environments but can also search for collision-free paths. In this paper, a robot visual navigation model in complex environments based on distributed deep reinforcement learning is proposed. According to the characteristics of different regions in the complex environment, the environment is divided into several regions, and we proposed method can realize visual navigation in large scene complex environments. In these regions, we combine long-short term memory (LSTM) and proximal policy optimization (PPO) algorithms as a local visual navigation model and design a new reward function that trains the target through factors such as the action of mobile robots, the distance between robots and the target, and the running time of robots. We create respective experience pool independently through model training. The model of robot visual navigation via distributed deep reinforcement learning uses the RGB-D image obtained from the first perspective of mobile robots and the polar coordinates of the target in mobile robots coordinate system as input, and the continuous motion of mobile robots as output to realize the task of end-to-end visual navigation without maps. Our model can complete accurately robot visual navigation in large complex scenes without maps and human intervention. In our experiments, we verify our proposed model by performing the promising navigation tasks in virtual environments.
+
+4. Index Terms—deep reinforcement learning; mobile robot; vi-sual navigation
+*Corresponding author
+I. INTRODUCTION
+With the continuous development of mobile robot navi-gation technologies, mobile robots are becoming more and more common both in the office and at home [1]. Among the numerous applications in smart vehicles and robotic systems, autonomous navigation technology is receiving increasing attention [2]. Most of the traditional mobile robot navigation is a map-based method, including the Simultaneous localization and mapping (SLAM) [3] and path planning [4]. Generally, the map of the environment is built by SLAM methods, and then according to the map a collision-free path from the starting point to the destination is generated by path planning methods [5]. In unknown, unstructured, and dynamic environments, SLAM-based methods become ineffective, and subsequent path planning is out of the question [6]. So mobile robots should have the ability to learn from the scene and make judgement to navigate to the set target position safely. With the rise of deep reinforcement learning (DRL), research on autonomous navigation of mobile robots in unknown, unstructured, and dynamic environments has attracted interest [7]. Due to the high cost of laser sensors, the autonomous navigation of mobile robot based on DRL is mostly based on visual sensor [8]. In DRL based visual navigation, the robot can interact with the moving and non-moving objects in the environment through visual information to gradually learn and then optimize the performance of its navigation
+
+5. In this paper, we discuss the problem of deep reinforcement learning based visual navigation and propose a new learning architecture that enables mobile robots to find a collision free path to the destination in the large complex scenes. The large-scale complex environment will lead to the explosive growth of model training time. In order to reduce the training time, we put the complex navigation task according to the region was divided into several simple tasks. In these regions, we combine long-short term memory (LSTM) and proximal policy optimization (PPO) algorithms as a local visual nav-igation model, and a new reward function is designed to train the target through factors such as the action of mobile robots, the distance between robots and the target, and the running time of robots. Agents are trained by the proposed robot visual navigation model. And then, the trained model is used to lead the mobile robot to complete the complex global navigation task, and complete complex navigation tasks by crossing multiple local areas through channels in complex environments. By the proposed method, the mobile robot can realize visual navigation in the large complex scene.
+
+6. II. RELATED WORKS
+A. Deep Reinforcement Learning
+DRL is considered one of the most promising approaches to artificial general intelligence. DRL has developed rapidly in recent years, an example of whose successful application is the Deep Q-Network (DQN) used in Atari games [12]. The current DRL algorithm is mainly divided into two cat-egories: value-based and policy-based. The value-based DRL algorithm is represented by DQN. In order to solve the over estimation problem of target Q-network in DQN, the Double DQN (DDQN) algorithm is proposed, which uses different networks to calculate the value of target Q-network and select action respectively [13]. The dueling DQN algorithm is proposed by decomposing the Q-network into two networks which are the state-dependent action advantage function and the state value function [14]. DRL based policy function mainly includes Asynchronous Advantage Actor Critic (A3C) [15], deep deterministic policy gradient (DDPG) [16], Trust Region Policy Optimization (TRPO) [17], Proximal Policy Optimization (PPO) [18] and other methods. In addition, in order to solve the problem of slow training of DRL based on policy function in complex environments, the algorithm is parallelized, which provides the possibility for the practical application of DRL. In the latest research, PPO and A3C algorithm have more applications.
+
+7. a t is the
+linear velocity and angular velocity of the mobile robot, cr, cl ,ca and ct are model parameters. Therefore, the reward
+function of the mobile robot visual navigation model is defined as in (2):
+f(x) =
+ rc, collision ra, arrival
+cr (dt−1 − dt) + clv l t + ca (v
+a t )
+2 + ct othervise
+(2)
+C. Distributed DRL based Visual Navigation [11]
+Fig. 3. distributed deep reinforcement learning based visual navigation.
+Distributed deep reinforcement learning based visual nav-igation uses the training results of local models to complete the visual navigation in large complex scenes. First of all, the complex environment is divided according to the scene and then we train local models in each region. We use CNN to obtain the current state RGB-D image as the input and generate an embedded vector. According to the embedded vector and the target position, we determine the regions that need to be travelled and its order, and navigate in the local model until it reaches the target in the entire complex environment. The model we proposed is shown in Fig.3. Because it has fewer factors than the complex global model, it has high efficiency and speed.
+
+8. Fig. 4. large-scale complex environment.
+IV. SIMULATION EXPERIMENTS
+A. Simulation Environment
+The simulation environment is established by Gazebo in Ubuntu16.04, as shown in Fig.4. The black circle represents the starting position of the mobile robot. The green cube is the
+(a) local region 1 (b) local region 2 (c) local region 3 (d) local region 4
+Fig. 5. local region model success rate.
+(a) local region 1 (b) local region 2 (c) local region 3 (d) local region 4
+Fig. 6. local region model reward over episodes.
+
+9. training target to update the local model. The yellow cube is the reasoning target used to judge the model’s understanding of the environment. The mobile robot is installed with a visual sensor to receive a real-time RGB-D image from the first perspective of the robot. The simulation factory environment consists of four regions: the production line, the office, the outdoor area, and the restaurant. There are channels between adjacent regions. For example, to reach region 3 from region 1, it is necessary to reach region 2 from region 1, and then from region 2 to region 3.
+
+10. A. Visual Navigation Problem Definition [1]
+In order to implement navigation tasks in large-scale com-plex environments, the visual navigation model takes the RGB-D information and the target point as input and the continuous action of the mobile robot as the output. The trained model can make the mobile robot reach the target in a collision free path in a large-scale complex environment, and the new target that has not been trained is reached according to the model inference. Therefore, this problem can be defined as:
+
+11. B. Result and Analysis
+Compared with the success rate of navigation tasks of the last 100 episodes between the old and new targets in the local region model, as shown in Fig.5. When the success rate of the mobile robot reaching the new goal is 60%, the success rate of the old target reached more than 75%. As shown in Fig.6, the rewards that mobile robots obtained in the environment during the training process continued to rise.
+The navigation success rate of visual navigation based on distributed DRL in local regions and the entire large-scale complex environment is shown in Table.I. The success rate of navigation of local region 1 is 95%, that of local region 2 is 77%, that of the local region 3 is 78%, that of local region 4 is 86%, and the navigation success rate in the entire complex scene is 84%. The navigation path from the starting point to the target is shown in Fig.7.
+
+12. V. CONCLUSION
+In this paper, we improved the existing DRL visual naviga-tion framework, and proposed a visual navigation model based on distributed DRL in large-scale complex environments.
+TABLE I VISUAL NAVIGATION MODEL SUCCESS RATE
+success rate region 1 region 2 region 3 region 4 entire env
+95% 77% 78% 86% 84%
+Fig. 7. visual navigation route.
+Firstly, the complex scene is divided into several regions. The local region models are trained by the RGB-D image and target position observed by the mobile robot. Then we select the local region model according to model selection until the target is reached. The success rate of the mobile robot reaching the target is 84% in the large-scale complex environment of GAZEBO, which has good navigation performance.

@@ -1,0 +1,227 @@
+Paper Information
+Authors: Xin-Yang Liu and Jian-Xun Wang [1]
+Title: Physics-informed Dyna-Style Model-Based Deep Reinforcement Learning for Dynamic Control [1]
+Type: Journal [1]
+Publication Date: 2021 [1]
+Number of Citations: The provided source does not contain the number of citations.
+Research Focus
+Main Purpose: The primary goal of this research is to enhance the efficiency and performance of model-based reinforcement learning (MBRL) by integrating physics-based knowledge within a Dyna-style MBRL framework [2, 3]. This involves using the environment's known governing laws to minimize uncertainties and improve the quality of the learned model [2].
+Key Questions Addressed:How can prior knowledge of the underlying physics of an environment be used to improve MBRL [2]?
+Can a physics-informed MBRL framework reduce the number of interactions with the real environment needed for learning and improve performance in dynamic control problems [2, 3]?
+How does the proposed method compare to model-free and purely data-driven MBRL approaches in terms of accuracy and the number of interactions with the real environment needed for learning [4]?
+Key Contributions:The development of a physics-informed MBRL framework (PiMBRL) that incorporates physical laws and constraints to inform model learning and policy optimization [3, 5].
+The creation of a novel autoencoding-based recurrent network architecture designed to learn the dynamics of the environment [3]. This architecture includes a convolutional encoder, MLP decoder, and LSTM blocks [6].
+Demonstration of improved sample efficiency and accuracy on several dynamic control problems governed by ordinary or partial differential equations (ODEs/PDEs), including Cart-Pole, Pendulum, Burgers' equation, and the Kuramoto-Sivashinsky (KS) equation [3]. This highlights the method's ability to handle complex systems, including nonlinear spatiotemporal chaotic systems [3, 4].
+Technical Details
+Machine Learning Methods Used:Model-Based Reinforcement Learning (MBRL): This approach involves the agent learning a model of the environment's dynamics to plan optimal actions [2]. MBRL is recognized for its potential to improve data efficiency by reasoning about the future using a learned model [7].
+Dyna-style Algorithm: This algorithm combines model-based and model-free RL [3]. The learned environment model is used to generate simulated experiences, which are then used to train the RL agent, supplementing real-world interactions and improving sample efficiency [8].
+Physics-Informed Neural Networks (PINNs): PINNs are used to guide the model training process by incorporating physical laws into the loss function, providing constraints to the model output and improving robustness in data-scarce and out-of-sample situations [9].
+Recurrent Neural Network (RNN): Specifically, LSTM (Long Short-Term Memory) networks are used to capture the spatio-temporal dependencies in the system dynamics [6].
+Encoder-Decoder Architecture: A convolutional encoder and a multilayer perceptron (MLP) decoder are used to map current states and actions to the states at the next control step [6]. The high-dimensional state vector is encoded into a latent space, and after the LSTM-based transition network, the latent outputs are decoded to full-order physical states [6].
+Datasets Used:The paper evaluates the proposed PiMBRL on several classic control problems [3]:
+Cart-Pole: The goal is to keep a pole balanced on a moving cart [10]. The state observation is a four-dimensional vector, u= (x, ẋ, θ, θ̇), while the action space is discrete, consisting of two valid values {−10, 10} [11].
+Pendulum: The aim is to swing up and balance a pendulum [12]. The state contains the angle and its time derivative, i.e., u= (θ, θ̇) [12].
+Burgers' Equation: A one-dimensional partial differential equation used to model fluid dynamics [13]. The simulated environment is based on a spatial mesh of 150 grid points, and the numerical time step is set as 0.01 [14].
+Kuramoto-Sivashinsky (KS) Equation: A nonlinear partial differential equation exhibiting spatio-temporally chaotic behavior [15]. The 1D domain l= 8π is discretized by a mesh of 64 grid points [16].
+The number of samples and features for each dataset are not explicitly specified, but the state and action space structures are described [11, 12, 14, 16].
+Implemented Algorithms and Tools:Twin Delayed Deep Deterministic Policy Gradients (TD3): An off-policy actor/critic algorithm is used for value/policy optimization [3, 17]. The algorithm is detailed in the Appendix [18, 19].
+Evaluation Metrics:Return: The total reward accumulated over an episode, used to measure the performance of the RL agent [20, 21].
+Model Prediction Error: The accuracy of the learned model in predicting the next state, used to evaluate the quality of the learned dynamics model [22, 23].
+Sample Efficiency: Measures how many interactions with the environment are required to achieve a certain performance level [2, 3].
+Outcomes
+Main Findings and Conclusions:PiMBRL demonstrates significant improvements in sample efficiency and accuracy compared to model-free and purely data-driven MBRL methods [3, 24, 25].
+Incorporating physics knowledge into the model learning process reduces model bias and improves the generalization capability of the learned model [3, 9].
+The proposed method achieves better performance in dynamic control problems governed by ODEs and PDEs [3, 24, 25]. For instance, in the Burgers' equation environment, PiMBRL reaches the total return of 0.1 only after 800 time steps, while MBRL takes about 1300 time steps [24]. In the KS equation environment, the agent uses about 30.2% of the time steps required by its MFRL counterpart to reach the averaged total return of −55 [25].
+The study also explores the influence of hyper-parameters like model rollout length and model accuracy threshold on the RL performance [26, 27]. For example, the RL performance slightly deteriorates if the rollout length of the model is either too short or too long [28]. A higher threshold for model accuracy allows the agent to access more data generated by the model earlier, leading to a better exploration rate [29].
+
+2. Model-based reinforcement learning (MBRL) is believed to have much higher sample efficiency compared to model-free algorithms by learning a predictive model of the environment. However, the performance of MBRL highly relies on the quality of the learned model, which is usually built in a black-box manner and may have poor predictive accuracy outside of the data distribution. The deficiencies of the learned model may prevent the policy from being fully optimized. Although some uncertainty analysis-based remedies have been proposed to alleviate this issue, model bias still poses a great challenge for MBRL. In this work, we propose to leverage the prior knowledge of underlying physics of the environment, where the governing laws are (partially) known. In particular, we developed a physics-informed MBRL framework, where governing equations and physical constraints are utilized to inform the model learning and policy search. By incorporating the prior information of the environment, the quality of the learned model can be notably improved, while the required interactions with the environment are significantly reduced, leading to better sample efficiency and learning performance. The effectiveness and merit have been demonstrated over a handful of classic control problems, where the environments are governed by canonical ordinary/partial differential equations.
+
+3. In this work, we leverage the idea of PIDL and propose Physics-informed Model-Based Reinforcement Learning (PiMBRL), an innovative MBRL framework for complex dynamic control that incorporates the physical laws/constraints of the system to alleviate the issue of model bias, reduce the real-world interactions, and significantly improve the data efficiency. Specifically, a novel autoencoding-based recurrent network architecture is constructed to learn the dynamic transition in the Dyna-style MBRL framework [48], which is a commonly-used MBRL formulation. The governing physics of the environment are assumed to be known and are utilized to inform the model learning and RL agent optimization. State-of-the-art Off-policy actor-critic (AC) algorithms, e.g., Twin Delayed Deep Deterministic Policy Gradients (TD3) [22], are used for value/policy optimization, We have demonstrated the effectiveness and merit of the proposed PiMBRL on a few classic dynamic control problems, where the environments are governed by canonical ordinary/partial differential equations (ODEs/PDEs), including cart-pole, pendulum, viscous fluid dynamics governed by Burgers’ equation, and chaotic/turbulent dynamics governed by Kuramoto-Sivashinsky (KS) Equation. The performance of the proposed PiMBRL algorithms is compared with their MBRL and MFRL counterparts, and significant improvements in terms of sample efficiency and model accuracy are observed. The novel contributions of this work are summarized as follows: (a) we propose a physics-informed model-based RL framework based on a novel encoder-decoder recurrent network architecture; (b) embed the physics of the environment into the MBRL using discretized PIDL formulation [49]; (c) demonstrate the effectiveness of proposed methods on a variety of dynamic control problems, particularly including nonlinear spatiotemporal chaotic systems, e.g., the KS equation, which
+
+4. exhibits a wide range of dynamics from the steady to chaotic/turbulent regimes, shedding lights on developing controllers for more challenging fluid systems governed by Navier-Stokes equations; (d) compare the proposed method with state-of-the-art MBRL and MFRL in terms of accuracy and sample complexity. This work is the first attempt to use physical laws to inform the MBRL agent optimization to the best of the authors’ knowledge.
+
+5. (b) Physics-informed model-based reinforcement learning We propose a physics-informed model-based reinforcement learning (PiMBRL) framework, where the physics knowledge (e.g., conservation laws, governing equations, and boundary conditions) of the environment is incorporated to inform the model learning and RL optimization. In this work, we focus on the Dyna-style MBRL formulation with the off-policy AC-based optimization. The proposed framework will retain the generality and optimality of model-free AC-based DRL methods, while significantly reducing the real-world interactions by learning a reliable environment model based on physics-informed discrete learning. Specifically, an AC-
+
+6. ∇θπJ(θ k π) =E
+[ T∑ t=0
+∇θπ log π̃(ut;θ k π) · q̃(ut,at;θkq )
+] . (2.7)
+The critic network q̃(u,a;θq) is optimized by minimizing the temporal difference (TD)-based loss function,
+θ∗q = argmin θq
+‖q′t − q̃(ut,at;θq)‖L2 , (2.8)
+where ‖ · ‖L2 represent L2 norm and q′t is estimated based on the optimal Bellman equation,
+q′t = rt + γq̃
+( ut+1, π̃(ut+1;θπ);θq
+) . (2.9)
+(ii) Physics-informed Learning architecture for transition dynamics
+We develop a physics-informed recurrent neural network to learn the dynamics transition, aiming to map the current states and actions to the states at the next control step (F̃ :ut,at→ut+1). To better capture the spatiotemporal dependencies, a convolutional encoder, multi-layer perceptron (MLP) decoder, and long-short term memory (LSTM) blocks are utilized to build the learning architecture. As shown in Fig. 3, the high-dimensional state vector (ut) at the current control step is encoded into the latent space by a convolutional encoder. Together with the input actions (at), the latent state vector is fed into the LSTM-based transition network, which outputs latent intermediate transition states between the two control steps. After a multi-layer perceptron (MLP) decoder, the latent outputs are decoded to the full-order physical states. The network is
+
+7. One way to improve data efficiency is to augment the data collected from real-world interactions with a learned transition model. This is the general idea of the other class of DRL algorithms: Model-based reinforcement learning (MBRL) [26, 27]. Using a learned model to reason about the future can avoid the irreversible consequence of trial-and-error in the real environment and has great potential to significantly improve data efficiency, which is thus more appealing in applications of complex mechanical systems. In addition, the learned transition model is independent of rewards and thus can be transferred to other control problems in the same/similar environments. Many existing MBRL methods rely on simple function approximators, such as Gaussian process (GP), linear models, and Gaussian mixture models [28, 29, 30]. However, the limited expressibility of the simple models prevents them from handling high-dimensional problems with complex dynamic transitions. Thanks to the rapid developments of deep learning, more and more complex high-dimensional function approximators based on neural networks have been applied to design more powerful MBRL algorithms. For example, Racanière et al. [31] proposed a novel MBRL framework, Imagination-Augmented Agent (I2A), where the environment model is constructed by a recurrent network architecture for generating imagined trajectories to inform agent’s decisions. Kaiser et al. [32] presented a complete MBRL method (SimPLe) using a convolutional neural network to successfully solve Atari games with significantly fewer interactions than MFRL methods. Hafner et al. [33] developed the Deep Planning Network (PlaNet) that learns the latent dynamics of the environment directly from images using a variational autoencoder and a recurrent latent network. The effectiveness of PlaNet has been demonstrated by successfully solving a number of continuous control tasks from
+
+8. v(ut) = Eπ ut+1∼P
+[ r(ut,at) + γv(ut+1)
+] , (2.5a)
+q(ut,at) = E ut+1∼P
+[ r(ut,at) + γ E
+at+1∼π q(ut+1,at+1)
+] , (2.5b)
+where P =P(ut+1|ut,at) is the transition probability, describing the dynamics of the environment.
+(ii) Model-free and model-based reinforcement learning
+As mentioned above, RL aims to find a series of actions (i.e., optimal policy) that maximize the total return by estimating the value and/or policy function based on the Bellman equation. Depending on whether or not learning and using a model of the transition dynamics of the environment, RL can be classified into two categories: model-free reinforcement learning (MFRL) and model-based reinforcement learning (MBRL). In MFRL, the optimization process is conducted by repeatedly interacting with the environment with a trial-and-error search, and the model of the environment is not required (see Fig. 1a). Namely, the state dynamics of the environment are (partially) observed as exploring different policy strategies, and the best policy will be identified after massive trials. MBRL, on the other hand, leverages a model F̃ that approximates the real environment F and predicts the dynamic transition (F̃ :ut,at→ut+1), which can be learned from the interactions with the real environment. The RL agent is then optimized by the interactions not only with the real environment but also with the virtual environment constructed by the model (see Fig. 1b). The learned model F̃ can be utilized for planning with its gradient information (e.g., SVG [50], GPS [51]) or synthesizing imagined samples to augment real samples for better sample efficiency. The latter is known as the Dyna-like MBRL [32, 36, 48, 52] that can directly leverage cutting-edge MBRL algorithms.
+
+9. pixels. Hafner et al. [34] further extended the PlaNet by developing a novel actor-critic based MBRL method (Dreamer), which learns long-horizon behaviors from images purely by latent imagination. Dreamer has been evaluated on the DeepMind Control Suite and outperforms most state-of-the-art MBRL and MFRL algorithms in every aspect.
+Despite the great promise, most commonly-used MBRL approaches suffer from model inaccuracy (i.e., model bias), preventing them from matching the success of their model-free counterparts [26]. This is particularly true when it comes to learning complex dynamics with high-capacity models (e.g., deep neural networks), which are prone to overfitting in data-sparse and out-of-sample regimes [27]. In particular, the model bias can be significantly exacerbated for predicting long rollout horizons because of the “compound error” effect. To mitigate this issue, rather than learning the transition deterministically, people built the dynamic models in a probabilistic manner, where the unknown model bias is treated as the epistemic uncertainty (i.e., model-form uncertainty) and can be modeled in several different ways. For example, Depeweg et al. [35] employed Bayesian neural networks (BNNs) to learn the probabilistic dynamic transition and update the policy over an ensemble of models sampled from the trained BNNs. Kurutach et al. [36] proposed to use an ensemble of models to estimate the model-form uncertainty and regularize the trust region policy optimization (TRPO). Nonetheless, the model-form uncertainty is notoriously difficult to quantify, especially for black-box deep learning models [37, 38]. Most recently, a more promising strategy known as physics-informed deep learning (PIDL) has attracted increasing attention in the scientific machine learning (SciML) community, aiming to leverage both the advantages of deep learning and prior knowledge of underlying physics to enable data-scarce learning. Instead of learning solely from labeled data, the model training process is also guided by physics laws and knowledge, which could provide rigorous constraints to the model output, alleviate overfitting issues, and improve the robustness of the trained model in data-scarce and out-of-sample regimes. This idea has been recently explored for solving PDEs or modeling complex physical systems. For example, researchers have incorporated physical constraints (e.g., realizability, symmetry, invariance) into SciML models to develop physics-informed, data-driven turbulence models [39, 40, 41]. People have also utilized governing equations of the physical systems to inform or directly train deep neural networks, i.e., physics-informed neural networks (PINNs) [42], which has been demonstrated in many scientific and engineering applications [43, 44, 45, 46, 47].
+
+10. (i) Cart-Pole
+We start with the Cart-Pole benchmark problem (i.e., “CartPole-v0” environment provided in OpenAi gym), where a cart moves along a frictionless track with a pole attached to the top of it via an unactuated joint, as shown in Fig.4 (a). The control goal is to keep the pole from falling over by acting a horizontal force on the cart. The reward is +1 for each time step as long as the pole is upright and the cart remains in a certain region. The physics of this system is governed by
+
+11. ẍ= f +mpθ̇
+2 sin θ −mplθ̈
+mp +mc
+θ̈=
+g sin θ − cos θ f +mpθ̇
+2 sin θ
+mp +mc
+l
+( 4
+3 − mp cos
+2 θ
+mc +mp
+) , (3.1)
+where x is the spatial coordinate of the cart, θ represents the angle of the pole from vertical, and f is the force that the RL agent applies on the cart. mc,mp are the mass of the cart and pole, respectively. One episode is considered to be ended if the pole deviates too much from vertical position (i.e., |θ|>π/12) or the cart leaves the designated area (i.e., |x|> 2.4) or one episode has more than 200 control steps. The state observation of this environment is a four-dimensional vector, u= (x, ẋ, θ, θ̇), while the action space is discrete, consisting of two valid values {−10, 10}. Each episode begins at a random state u0 = (x0, ẋ0, θ0, θ̇0).
+
+12. same performance with sufficient time steps, PiMBRL only uses about 45.2% and 9.7% time steps needed by its MBRL and MFRL counterparts, respectively. Therefore, to achieve the same level of performance, PiMBRL can significantly reduce the required number of interactions with the real environment, compared to the original model-free TD3 (i.e., MFRL) and dyna-like model-based TD3 (i.e., MBRL).
+(ii) Pendulum
+The second test case is the Pendulum-v0 available in the OpenAi gym. In this environment (see Fig. 5 (a) ), one end of the pendulum is fixed, while the other end can swing freely. θ denotes the angle of the pendulum from vertical position. The state contains the angle and its time derivative, i.e., u= (θ, θ̇). In each episode, the pendulum starts from a random state u0 ∈ (−1, 1)× (−1, 1). Besides, the angular velocity is constrained as θ̇ ∈ [−8, 8], and any θ̇ out of this range will be capped by the boundary value (−8 or 8). The dynamics of the pendulum system is governed by,
+
+13. (i) Burgers’ equation
+For the first PDE-based control problem, we consider a 1-D Burgers’ equation with periodic boundary condition,
+∂u
+∂t +
+1
+2 u ∂u
+∂x = ν
+∂2u
+∂x2 + f(x, t), x∈ [0, l], t∈ [0, 2π], (3.4)
+where x is the spatial coordinate, ν = 0.01 is the kinematic viscosity, and f(x, t) denotes the source term, defined as,
+f(x, t) = a1(t) exp
+[( −15(x
+l − 0.25)
+)2] + a2(t) exp
+[( −15(x
+l − 0.75)
+)2] (3.5)
+with the control parameters a= (a1, a2)∈ [−0.025, 0.075]2. The control problem is defined as training the RL agent to match a reference trajectory. Namely,
+
+14. the RL agent is trained to find the optimal strategy of controlling the source term with two control parameters a1, a2, in order to match a predefined reference trajectory profile ure,
+ure(x, t) = 0.05 sin t+ 0.5, t∈ [0, 2π]. (3.6)
+Each episode starts from a randomly generated initial condition,
+u(x, 0) = 0.2 c exp
+[ (−5(x
+l − 0.5))
+2 ] + 0.2 (1− c)
+( 0.5 sin 4π
+x
+l + 0.5
+) , (3.7)
+where c is randomly sampled from a uniform distribution on [ 0, 1). That is, the trained RL is expected to finally match the reference trajectory, starting from any randomly generated initial state by eq.(3.6). The observation is set as the discrepancy between the PDE state and reference state at the same control step uo =u− ure. The environment is simulated numerically based on the finite difference methods, where the convection term and diffusion term are discretized by the second-order upwind scheme and fourth-order central difference scheme, respectively. Euler method is used for the time integration. The simulated environment is defined on a spatial mesh of 150 grid points and the numerical time step is set as 0.01. The control signal is applied every 500 numerical steps and one episode contains 60 control steps. The reward function is defined as −10 ‖uo‖L2
+
+15. (ii) Kuramoto-Sivashinsky (KS) Equation
+In the last case, we evaluate the proposed PiMBRL on the control of a nonlinear, chaotic dynamic system governed by the 1-D Kuramoto-Sivashinsky (KS) equation, which is more challenging. The system governed by the KS equation often exhibits spatiotemprally chaotic or weakly turbulent behavior, and thus the KS equation is widely used as a model system for turbulence study [61]. In this case, the KS environment is controlled by four actuators distributed equally
+
+16. where T is the time length of one control step. The environment is simulated numerically based on the finite difference method, where the convection term is discretized by the second-order upwind scheme, the second and fourth derivatives are discretized by the 6th-order central difference scheme, and the 4th-order Runge-Kutta scheme is used for time integration with time stepping size of 0.001 on the 1D domain l= 8π discretized by a mesh of 64 grid points. Each control step contains 250 numerical steps, and one episode consists of 400 control steps. Each episode starts with a random initial condition sampled from the attractor of the unforced KS equation. Figure 9 shows the spatiotemporal states of four test episodes with randomly sampled initial states. The top one is an uncontrolled episode, where nonlinear chaotic behavior is developed along the time axis. In contrast, the “turbulence” in the other three episodes controlled by the agent can be quickly stabilized after 200 time steps, showing the effectiveness of the PiMBRL controller.
+
+17. nbf j=1 in transition model F̃ ;
+18: Save new data pairs {(uoj+1,aj+1,u o j+2, rj+2, dj+2)}
+nbf j=1 to buffer Df ;
+19: end for 20: end if 21: if enough (nsR ) state-action pairs stored in {Dr,Df} then 22: Sample a batch of state-action pairs {(uok,ak,u
+o k+1)} from the fake buffer Df
+23: Update model F̃ according to physical loss LE on sampled state-action pairs; 24: end if 25: Sample a batch of {(uol ,al,u
+o l+1, rl, dl)} from the augmented buffer {Dr,Df}
+26: Update policy network π(u;θπ) and value network q(u,a;θq) on the sampled state-action pairs using off-policy algorithms1(see Algorithm 3 in Appendix).
+
+18. θk+1 π = θkπ + απ∇θπJ(θ
+k π), (2.6)
+1In this paper, TD3 is used as a demonstration (details of the TD3 is given in Algorithm 3), but other off-policy algorithms such as Deep Deterministic Policy Gradient (DDPG) and Soft Actor-Critic (SAC) are also applicable.
+8 rspa.royalsocietypublishing.org P
+roc R
+S oc
+A 0000000
+..........................................................
+where απ is the learning rate and ∇θπJ(θπ) represents the policy gradient with respect to actor network parameters θπ , which can be calculated based on the critic network,
+
+19. Competing Interests. We declare we have no competing interests.
+Funding. This work is funded by the National Science Foundation under award numbers CMMI-1934300 and OAC-2047127 and startup funds from the College of Engineering at University of Notre Dame.
+Appendix
+(a) Twin-delayed deep deterministic policy gradient (TD3)
+Algorithm 2 Model-free Twin-delayed deep deterministic policy gradient (TD3)
+1: Initialize policy (actor) network π(u;θπ), value (critic) networks q1(u,a;θq1), q2(u,a;θq2), empty the replay buffer Dr and reset the environment F .
+
+20. du
+dt =F (u,a;µ), (2.1)
+whereu(x, t)∈Rdu denotes the state variable of the system in the spatial domainΩ and temporal domain t∈ [0, T ], a(x, t)∈Rda represents the action variable (i.e., control inputs), and F (·) is a nonlinear differential operator parameterized byµ. In many cases, the systems can be assumed to possess the Markov property, referred to as Markov Decision Processes (MDP). The discrete form can be written as,
+ut+1 =F(ut,at;µ), (2.2)
+where the state ut+1 at next time t+ 1 only depends on the state ut and action at at current time step t, and the time-invariant transition dynamics F of the environment is a nonlinear differential functional. In the optimal control problem, the goal is to find a series of action signals (a.k.a., policy π) that maximizes the expected return R(π),
+
+21. R(π) =
+∫T 0
+E ut∼πt
+[ r(ut)
+] , (2.3)
+where r(ut) denotes the reward function of the state at time t, which is a signal to assess the control agent locally. This optimal control problem can be solved by deep reinforcement learning (DRL), either in a model-free or model-based manner.
+(i) Value function, policy function, and Bellman equation
+Before putting forth the proposed DRL algorithms, we introduce several important concepts in DRL, including value & policy functions and Bellman equation. Value functions are functions of a state (or a state-action pair) that estimate the total return starting from that particular state (state-action pair). Value function v(u) of a state u is known as state-value function, while value function q(u,a) of a state-action pair (u,a) is known as action-value function. The state-value and action-value functions are formally defined as,
+
+22. 0.00 0.02 0.04 0.06 0.08 0.10 Absolute model prediction error
+0
+100
+200
+300
+400
+500
+0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 Absolute model prediction error
+0
+5
+10
+15
+(a) Model trained with the physics-informed loss in PiMBRL
+0.00 0.02 0.04 0.06 0.08 0.10 Absolute model prediction error
+0
+400
+800
+1200
+0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 Absolute model prediction error
+0
+5
+10
+15
+(b) Model trained with the data loss only in MBRL
+Figure 6: Histograms of the prediction errors of the transition models for the Pendulum environment, (a) trained with physics-informed loss in PiMBRL, and (b) trained with the data loss only in MBRL.
+
+23. 12
+rspa.royalsocietypublishing.org P
+roc R
+S oc
+A 0000000
+..........................................................
+Figure 6 compares the histograms of the prediction errors of the models trained by PiMBRL and MBRL, respectively. Fig. 6 (a) shows the prediction error of the model trained with the physics-informed loss (equation loss + data loss), while Fig. 6 (b) shows the model prediction error in MBRL where only the labeled data are used for training. Although the model does achieve higher accuracy on average without using physics constraints (see two sub-figures in the left column), in the out-of-sample regime (away from the training set), the physics-informed model shows better performance and robustness (see two sub-figures in the right column). Overall, the models in both PiMBRL and MBRL are learned sufficiently well to achieve a roughly similar RL performance.
+
+24. Figure 8 shows the performance curves of the PiMBRL, MBRL, MFRL tested on 100 randomly selected initial conditions. The PiMBRL reaches the total return of 0.1 only after 800 time steps, while it takes the MBRL about 1300 time steps to achieve a similar level of performance. The MFRL counterpart can not reach the same level of performance within 1400 time steps. Again, our PiMBRL shows significant advantages in terms of sample efficiency, since it only uses about 65% of time steps required by MBRL and 46.7% time steps required by MFRL to achieve the control goal.
+
+25. Figure 10 shows the performance curve of PiMBRL versus that of the MFRL. It is clear that the PiMBRL agent reaches higher averaged total returns with fewer time steps than the MFRL counterpart does. The PiMBRL performance curve is consistently above that of the MFRL approach, and meanwhile, less uncertainty is observed. In PiMBRL, the agent only uses about 30.2% of the time steps required by its MFRL counterpart to reach the averaged total return of −55. In this case, a model-free fine-tuning approach [62] is applied when the averaged return is above -55 to further improve the PiMBRL performance. This is because when the RL agent is trained to achieve a high accuracy level, the model-based exploration does not help too much while the model bias becomes the bottleneck. At this point, the RL agent can be fine-tuned by
+
+26. 4. Discussion
+(a) Influence of model rollout length The rollout length of the model is important to the RL performance. On the one hand, a long-term model prediction could help the agent see “deeper and further”, improving the exploration rate and increasing the sample efficiency in the Dyna-like MBRL framework. On the other hand, accurately predicting a long trajectory is always challenging due to the error accumulation effect, and inaccurate prediction data could be harmful to the RL training, which is a trade-off. Figure 12 shows the model prediction performance for the KS environment with four different
+
+27. (b) Influence of model accuracy threshold. In model-based RL, the transition model is trained along with the RL agent (i.e., value and policy networks) from scratch, and the model-generated data usually can be effectively used once the model is trained to reach a certain level of accuracy. As mentioned above, we use the model accuracy threshold parameter (λ) to determine when the model-predicted data should be utilized
+18
+rspa.royalsocietypublishing.org P
+roc R
+S oc
+A 0000000
+..........................................................
+
+28. of PiMBRL with different model prediction lengths. As expected, the RL performance slightly deteriorates if the rollout length of the model is either too short or too long. For the four rollout lengths (lM = 3, 8, 40, 120), the RL agent achieves the best performance with lM = 8 at almost any stage of the entire training process. When lM <= 8 or lM >= 8, the RL convergence speed is relatively slow before entering the fine-tuning stage due to the trade-off between exploration and model bias. However, even after the model-free fine tuning, the RL agent with a longer rollout length (lM >= 40) still suffers from the low-quality model prediction data and is very difficult to be further improved (see the comparison of the green and blue curves in Fig. 13).
+
+29. for the RL training. Here, we would like to study how this parameter of λ affects the PiMBRL performance.
+Using the KS environment as an example, Fig. 14 shows the performance curves of PiMBRL with three different threshold values, i.e., λ= 0.02, 0.01, 0.005. Overall, the influence of λ values on the final performance of the RL agent is negligible since all cases converge to the same level of total return. This is because the model is trained together with the RL agent and can be improved over the entire RL training process. Actually, with the same amount of training time steps in the real environment, the models can reach a similar accuracy level regardless of threshold values λ. However, the RL agent with a relatively large threshold value (λ= 0.02) performs slightly better and has a relatively faster convergence rate at the early stage of the training (time step 40000 to 60000). A higher threshold allows the agent to access more data generated by the model earlier, which leads to a better exploration rate and thus slightly higher sample efficiency (see Fig. 14b).
