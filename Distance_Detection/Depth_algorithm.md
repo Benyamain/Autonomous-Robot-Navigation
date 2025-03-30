@@ -14,7 +14,8 @@ Based on the results of the previous step, I found that the largest regions in t
 (4) Horizontal projection
 After the segmentation of the depth images is complete, I want to project these regions onto the ground to provide scene distance information to the decision maker. So first of all the depth image system is transformed to the robot system using 3D coordinate transformation. In this step: the depth system with the origin in the upper left corner of the depth image is transformed to the robot system on the ground. The computational procedure is not repeated. During the transformation I found that the xy-axis of the original depth system is in pixels, only the z-axis is in meters. But the robot coordinate system is in meters. In order to correct this problem we introduced the pinhole camera model and solved this unit problem by consulting the optical center coordinates and the horizontal and vertical focal lengths. Finally, in this projection form we tested two models: ray projection and parallel projection. After testing, it was found that the ray projection does not magnify the object equivalently to improve accuracy, but rather distorts the original object. So parallel projection was chosen for the final solution. The xy-plane projection of each pixel of the depth image in the robot coordinate frame is faithfully reflected.
 
-The set of images shown below are the original RGB image, Segmentation of the depth image, Horizontal projection, Horizontal projection of the outer rectangle.
-![Results_Segmentation](https://github.com/user-attachments/assets/2492af30-3258-42b5-9286-fa1006c2154a)
 The following image is the original image visualization of the depth image in npy format
 ![image](https://github.com/user-attachments/assets/e7d77ca8-9639-4dcd-a0d7-4b4f5ffa22f6)
+The set of images shown below are the original RGB image, Segmentation of the depth image, Horizontal projection, Horizontal projection of the outer rectangle.
+![Results_Segmentation](https://github.com/user-attachments/assets/2492af30-3258-42b5-9286-fa1006c2154a)
+
