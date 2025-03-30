@@ -16,6 +16,7 @@ After the segmentation of the depth images is complete, I want to project these 
 
 The following image is the original image visualization of the depth image in npy format
 ![image](https://github.com/user-attachments/assets/e7d77ca8-9639-4dcd-a0d7-4b4f5ffa22f6)
+
 The set of images shown below are the original RGB image, Segmentation of the depth image, Horizontal projection, Horizontal projection of the outer rectangle.
 ![Results_Segmentation](https://github.com/user-attachments/assets/2492af30-3258-42b5-9286-fa1006c2154a)
 
