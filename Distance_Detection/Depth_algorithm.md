@@ -4,6 +4,7 @@ The ultimate goal of this section is to provide scene distance information.
 
 (1) Calculate the vertical declination of the pixels from each point to the center optical axis and translate it to the horizontal z-axis.
 In order to get better results for object recognition, our RGB and depth cameras have a pitch angle of 0.2 rad, which is used to avoid not being able to see the top surface of higher objects (for CNN training) caused by too low viewing angle. So if we want to characterize the actual position of the object using the data from the depth camera, we need to overcome the vertical distortion. Translate all depth quantities to the horizontal z-axis. (The origin of the coordinate system is the upper left corner of the depth image, at which point the z-axis is the depth data. The horizontal z-axis assumes that the center optical axis is horizontal.) In actual calculations, we actually convert in rows of pixels.
+![depthcamera_position](https://github.com/user-attachments/assets/3271912e-8f5d-4cd9-b6ad-4afe3612e878)
 
 (2) 8-neighborhood region growth based on mutation thresholding
 We consider two neighboring pixels to be the same object when they are less than the mutation threshold. All labeled pixels are given after traversing all pixels. Then create multiple regions and initialize region seeds based on the marked pixels, traverse all neighboring pixels in the current region by breadth-first search (BFS), and use 8-neighborhood to detect all pixels that meet the threshold.
