@@ -431,7 +431,7 @@ for epoch in range(num_epochs):
     # Evaluated in every round
     precision, recall, acc, dist_err = evaluate_model(model, val_loader, device=device)
 
-    print(f"\n📊 Epoch {epoch+1}: Avg Loss={avg_loss:.4f} | 🎯 Precision={precision:.4f} | 🔁 Recall={recall:.4f} | ✅ Accuracy={acc:.4f} | 📏 AvgDistError={dist_err:.2f}m\n")
+    print(f"\n Epoch {epoch+1}: Avg Loss={avg_loss:.4f} |  Precision={precision:.4f} |  Recall={recall:.4f} |  Accuracy={acc:.4f} |  AvgDistError={dist_err:.2f}m\n")
 
     precision_list.append(precision)
     recall_list.append(recall)
@@ -442,7 +442,7 @@ for epoch in range(num_epochs):
         torch.save(model.state_dict(), "best_model_distance.pth")
         with open("best_loss.txt", "w") as f:
             f.write(str(best_loss))
-        print("✅ Saved best model.")
+        print(" Saved best model.")
 
 # Training completed, plotting multiple comparisons
 plt.figure(figsize=(12, 4))
