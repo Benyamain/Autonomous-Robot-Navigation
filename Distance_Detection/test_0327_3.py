@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 from collections import deque
@@ -6,7 +5,7 @@ import matplotlib.patches as patches
 from collections import defaultdict
 
 depth_map = np.load('C:/Users/wangji15/Downloads/depth_/depth_/depth/frame_02775.npy')
-#depth_map = np.load('C:/Users/wangji15/Downloads/depth_/depth_/depth/frame_00029.npy')
+# depth_map = np.load('C:/Users/wangji15/Downloads/depth_/depth_/depth/frame_00029.npy')
 # 相机内参 + 俯角
 fy   = 1108.7654256452881
 cy   = 360.5
@@ -83,7 +82,7 @@ def region_grow_segmentation(depth_img, diff_thresh=0.1):
 
             current_label += 1
             label_map[i, j] = current_label
-
+            
             # BFS队列
             queue = deque()
             queue.append((i, j))
@@ -145,16 +144,6 @@ def pixel_to_cam(u, v, d, fx, fy, cx, cy):
 
 def transform_to_world(pt_cam, T_world_cam):
     return T_world_cam @ pt_cam
-"""""
-def project_to_ground(pt_world, cam_origin):
-    Xw, Yw, Zw, _ = pt_world
-    if Zw <= 0:
-        return (Xw, Yw)  # 已在地面以下
-    t = -cam_origin[2] / (Zw - cam_origin[2] + 1e-9)
-    Xg = cam_origin[0] + t * (Xw - cam_origin[0])
-    Yg = cam_origin[1] + t * (Yw - cam_origin[1])
-    return (Xg, Yg)
-"""""
 
 def flatten_to_ground(pt_world):
     Xw, Yw, _, _ = pt_world  # 直接忽略 Z
@@ -216,22 +205,24 @@ plt.figure(figsize=(10, 8))
 
 for region_id, points in region_ground_points.items():
     if len(points) < 5:
-        continue  
+        continue  # 太小的区域忽略
 
     xs = [p[0] for p in points]
     ys = [p[1] for p in points]
 
+    # 画点
     color = (region_id * 37 % 255 / 255,
              region_id * 73 % 255 / 255,
              region_id * 109 % 255 / 255)
     plt.scatter(xs, ys, s=5, c=[color], label=f'Region {region_id}')
 
-    # 外接矩形计算
+    # === 外接矩形计算 ===
     xmin, xmax = min(xs), max(xs)
     ymin, ymax = min(ys), max(ys)
     width = xmax - xmin
     height = ymax - ymin
 
+    # 添加矩形框
     rect = patches.Rectangle((xmin, ymin), width, height,
                              linewidth=1.5, edgecolor='red', facecolor='none')
     plt.gca().add_patch(rect)
