@@ -7,6 +7,23 @@ from typing import Tuple, Optional
 from rclpy.node import Node
 from threading import Lock
 
+config = dict(
+    wheel_radius   = 0.033,
+    wheel_base     = 0.160,
+    max_torque     = 3.0,        # ← 如果你确实想夹到 20，请改这里
+    wheel_inertia  = 3.29e-3,
+    friction_coeff = 2e-3,
+
+    hidden_dims = [64, 64, 32],
+
+    control_frequency = 30.0,    # 或 100.0
+    lr         = 3e-4,
+    epochs     = 50_000,
+    batch_size = 256,
+    device     = "cuda"
+)
+
+
 @dataclass
 class WheelState:
     """Physical state of the wheels"""
@@ -58,7 +75,6 @@ class WheelDynamicsPINN(nn.Module):
         )
         
     def compute_kinematic_loss(self, state: torch.Tensor, pred: torch.Tensor) -> torch.Tensor:
-        """Differential drive kinematic constraints"""
         # extract velocities
         v_l, v_r = pred[:, 0], pred[:, 1]
         
@@ -72,7 +88,6 @@ class WheelDynamicsPINN(nn.Module):
     
     def compute_dynamic_loss(self, state: torch.Tensor, pred: torch.Tensor, 
                            torques: torch.Tensor, dt: torch.Tensor) -> torch.Tensor:
-        """Physical dynamics constraints"""
         # torque-acceleration relationship: τ = I * α
         accel_left = (pred[:, 0] - state[:, 0]) / dt
         accel_right = (pred[:, 1] - state[:, 1]) / dt
@@ -87,13 +102,7 @@ class WheelDynamicsPINN(nn.Module):
     
     def forward(self, state: torch.Tensor, torques: torch.Tensor, 
                 dt: torch.Tensor) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
-        """
-        Forward pass with physics-informed loss
-        Args:
-            state: [batch_size, 4] - [vel_left, vel_right, pos_left, pos_right]
-            torques: [batch_size, 2] - [torque_left, torque_right]
-            dt: [batch_size] - timestep
-        """
+    
         # combine inputs
         x = torch.cat([state, torques, dt.unsqueeze(-1)], dim=1)
         predictions = self.dynamics_net(x)
@@ -111,14 +120,6 @@ class WheelDynamicsPINN(nn.Module):
         return predictions, None
     
     def apply_torque(self, wheel: str, torque: float, duration: float, node: Node) -> None:
-        """
-        Apply torque using ROS2 timing
-        Args:
-            wheel: 'left' or 'right'
-            torque: torque value in N⋅m
-            duration: time to apply torque in seconds
-            node: ROS2 node for timing
-        """
         lock = self.left_lock if wheel == 'left' else self.right_lock
         with lock:
             # clamp torque to physical limits
@@ -155,7 +156,6 @@ class WheelDynamicsPINN(nn.Module):
 
     def predict_next_state(self, current_state: WheelState, 
                           target_vel_left: float, target_vel_right: float) -> WheelState:
-        """Predict next wheel state based on current state and target velocities"""
         # prepare input tensor
         state = torch.tensor([
             [current_state.vel_left, current_state.vel_right,
